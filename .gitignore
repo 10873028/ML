@@ -1,0 +1,9 @@
+*
+
+!*/
+!.gitignore
+!*.ipynb
+!*.py
+!*.csv
+*-checkpoint.ipynb
+
