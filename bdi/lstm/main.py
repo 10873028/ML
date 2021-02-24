@@ -61,7 +61,7 @@ for epoch in range(epochs):
         val_loss = val_loss.item()
     if val_loss <= best_model:
         best_model = val_loss
-        torch.save(model, f'checkpoint.pt')
+        torch.save(model, 'checkpoint.pt')
         print('weight_saved')
     history['loss'].append(loss)
     history['val_loss'].append(val_loss)
