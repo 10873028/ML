@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import metrics, preprocessing
 from preprocessing import StandardScaler, Split
-from model import Net
+from model import Classifier
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
@@ -38,7 +38,7 @@ for i in range(timesteps, label.shape[0]):
 x = np.array(x)
 y = np.array(y)
 
-x_train, y_train, x_val, y_val, x_test, y_test = Split(x, y, seed=42)
+x_train, y_train, x_val, y_val, x_test, y_test = Split(x, y)
 
 oe = preprocessing.OneHotEncoder()
 train = oe.fit_transform(y_train.reshape(-1, 1)).toarray()
@@ -59,7 +59,7 @@ y_val = torch.LongTensor(y_val).to(device)
 dataset = Data.TensorDataset(x_train, y_train)
 dataloader = Data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True)
 
-model = Net().to(device)
+model = Classifier().to(device)
 
 criterion = nn.CrossEntropyLoss()
 adam = torch.optim.Adam(model.parameters(), lr=0.01)
