@@ -62,31 +62,32 @@ dataloader = Data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=Tru
 model = Classifier().to(device)
 
 criterion = nn.CrossEntropyLoss()
-adam = torch.optim.Adam(model.parameters(), lr=0.01)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
 best_model = np.inf
 history = {}
 history['loss'] = []
 history['val_loss'] = []
 for epoch in range(epochs):
+    if epoch == 150:
+        model = torch.load('checkpoint.pt')
+        optimizer = torch.optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     for x_batch, y_batch in dataloader:
         model.train()
         y_pred = model(x_batch)
         loss = criterion(y_pred, y_batch)
-        adam.zero_grad()
+        optimizer.zero_grad()
         loss.backward()
-        adam.step()
+        optimizer.step()
     model.eval()
     with torch.no_grad():
         y_pred = model(x_val)
     val_loss = criterion(y_pred, y_val)
-    val_loss = val_loss.item()
-    loss = loss.item()
-    history['loss'].append(loss)
-    history['val_loss'].append(val_loss)
-    print(f'epoch:{epoch + 1:03d}-loss:{loss:.5f}-val_loss:{val_loss:.5f}')
-    if val_loss <= best_model:
-        best_model = val_loss
+    history['loss'].append(loss.item())
+    history['val_loss'].append(val_loss.item())
+    print(f'epoch:{epoch + 1:03d}-loss:{loss.item():.5f}-val_loss:{val_loss.item():.5f}')
+    if val_loss.item() <= best_model:
+        best_model = val_loss.item()
         torch.save(model, 'checkpoint.pt')
         print('weight saved')
 
