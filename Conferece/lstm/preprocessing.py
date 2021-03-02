@@ -21,11 +21,8 @@ def Create_Matrix(data, timesteps):
     return np.array(x), np.array(y)
 
 
-def Split(x, y, seed=0):
+def Split(x, y):
     a = int(0.8 * x.shape[0])
     b = int(0.9 * x.shape[0])
-    index = np.arange(a)
-    np.random.seed(seed)
-    np.random.shuffle(index)
-    return x[:a][index], y[:a][index], x[a:b], y[a:b], x[b:], y[b:]
+    return x[:a], y[:a], x[a:b], y[a:b], x[b:], y[b:]
 
