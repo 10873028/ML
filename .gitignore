@@ -1,7 +1,6 @@
 *
 
 !*/
-!.gitignore
 !*.ipynb
 !*.py
 !*.csv
