@@ -1,7 +1,6 @@
 from torch import nn
 import torch.nn.functional as func
 
-
 class Classifier(nn.Module):
     def __init__(self):
         super(Classifier, self).__init__()
