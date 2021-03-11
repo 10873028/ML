@@ -13,7 +13,7 @@ class StandardScaler:
         return data * self.std + self.mean
 
     
-def Create_Matrix(data, timesteps):
+def CreateMatrix(data, timesteps):
     x, y = [], []
     for i in range(timesteps, data.shape[0]):
         x.append(data[i - timesteps:i])
